@@ -514,9 +514,12 @@ def parse_cursor(path):
                 if b["kind"] == "text":
                     title = b["text"][:200]
                     break
+    # Cursor names sessions after their date, which tells you nothing in a list.
+    # The first thing you asked for is the better label; keep the stored name
+    # only as a fallback for sessions with no user text.
     name = cursor_meta(sid).get("name") or ""
     return {"id": sid, "cwd": cursor_cwd(path), "branch": "",
-            "title": name or title or "(untitled)", "turns": turns}
+            "title": title or name or "(untitled)", "turns": turns}
 
 
 def read_cursor_turns(path):
